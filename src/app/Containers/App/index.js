@@ -36,11 +36,6 @@ const App = () => {
         setLoader(false)
     };
 
-    const redirectToLogin = () => {
-        deleteToken();
-        setIsAuth(false);
-    };
-
     const checkError = (error) => {
         if (401 === error.response.status) {
             deleteToken();
