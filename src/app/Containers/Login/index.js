@@ -4,7 +4,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import withStyles from '@material-ui/core/styles/withStyles'
 import {Link, withRouter} from 'react-router-dom'
 
-import {loginUser} from '../../common/api'
+import {loginUser} from '../../common/thunks/user'
 
 const styles = theme => ({
     main: {
@@ -38,15 +38,16 @@ const styles = theme => ({
     },
 });
 
-const Login = (props) => {
-    const {classes, getInfo} = props;
+const Login = ({classes, getInfo, createNotification}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        const error = await loginUser({email, password});
-        if (!error) {
+        const {err} = await loginUser({email, password});
+        if (err) {
+            createNotification('errorAuth', 'Invalid email or password.');
+        } else {
             getInfo();
         }
     };
